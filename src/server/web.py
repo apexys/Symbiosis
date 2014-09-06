@@ -12,6 +12,14 @@ def index():
     #return os.getcwd()
     return render_template( '../clients/static/index.html' )
 
+@app.route( '/login', methods = [ 'POST' ] )
+def login():
+    data = request.form
+    if data[ 'user' ] == 'dummy' and data[ 'pass' ] == 'dummy':
+        return to_json( { 'infos': [ 'Login successful' ] } )
+    else:
+        return to_json( { 'errors': [ 'Login failed' ] } )
+
 if __name__ == "__main__":
     app.run( debug = True )
 
