@@ -14,10 +14,8 @@ def index():
 @app.route( '/login', methods = [ 'POST' ] )
 def login():
     data = request.form
-    if data[ 'user' ] == 'dummy' and data[ 'pass' ] == 'dummy':
+    if data[ 'username' ] == 'dummy' and data[ 'password' ] == 'dummy':
         response = make_response(to_json( { 'infos': [ 'Login successful' ] } ))
-        response.set_cookie('username', data['user']);
-        response.set_cookie('password', data['pass']);
         return response
     else:
         return to_json( { 'errors': [ 'Login failed' ] } )
