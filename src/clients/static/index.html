@@ -2,6 +2,7 @@
     <head>
         <meta charset="utf-8">
         <link rel="stylesheet" href="style.css">
+        <script src="jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="views.js"></script>
     </head>
     <body>
@@ -9,8 +10,25 @@
             <span id="header-text">Settings</span>
         </div>
         <div id="content">
+             <div id="login">
+                <form action="./login">
+                    <div id="username-wrapper">
+                        <span id="username-label">Username:</span><input type="text" name="username" id="username-input">
+                    </div>
+                    <div id="password-wrapper">
+                        <span id="password-label">Password:</span><input type="text" name="password" id="password-input">
+                    </div>
+                    <div id="action-wrapper">
+                        <input type="submit">
+                    </div>
+                </form>
+            </div>
         </div>
         <div id="footer">
+
+        <div id="templates">
+
+        </div>
 
         </div>
         <script type="text/javascript">
