@@ -2,8 +2,15 @@ function ViewGenerator(){
     this.clearView = function(){
         console.log("clearView!");
         document.getElementById('header-text').textContent = "";
-        document.getElementById('content').innerHTML = "";
+        $('#content').children('div').attr('display', 'block');
+    }
+
+    this.createLoginView = function(){
+        document.getElementById('header-text').textContent = "Login";
+        document.getElementById('content');
+
         document.getElementById('footer').innerHTML= "";
+
     }
 
     this.createChatSessionOverView = function(){
