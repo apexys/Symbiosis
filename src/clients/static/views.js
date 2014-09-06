@@ -11,26 +11,35 @@ function ViewGenerator(){
     }
 
     this.createChatSessionOverView = function(){
-        console.log("createChatSessionOverView!");
+        $('#header-text').text('Chat Sessions');
+        $('#chat-sessions').attr('display', 'block');
     }
 
     this.createChatView = function(chatID){
+        //Do some magic here
+        var chatname = '#somechat';
 
+        $('#header-text').text(chatname);
+        $('#login').attr('display', 'block');
     }
 
     this.createAddChatView = function(){
-
+        $('#header-text').text('Login');
+        $('#login').attr('display', 'block');
     }
 
     this.createSettingsView = function(){
-
+        $('#header-text').text('Login');
+        $('#login').attr('display', 'block');
     }
 
     this.createNetworkOverView = function(){
-
+        $('#header-text').text('Login');
+        $('#login').attr('display', 'block');
     }
 
     this.createAddNetworkView = function(){
-
+        $('#header-text').text('Login');
+        $('#login').attr('display', 'block');
     }
 }
