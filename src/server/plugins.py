@@ -15,7 +15,7 @@ class CommunicationPlugin( ABC ):
         """
         raise NotImplemented
 
-    def login( credentials : dict ):
+    def login( self, credentials : dict ):
         """
         Log in with at the service with credentials
 
@@ -23,13 +23,13 @@ class CommunicationPlugin( ABC ):
         """
         raise NotImplemented
 
-    def logout():
+    def logout( self ):
         """
         Log out from the service and disconnect
         """
         raise NotImplemented
 
-    def send( message ):
+    def send( self, message ):
         """
         Send a message
 
@@ -37,7 +37,7 @@ class CommunicationPlugin( ABC ):
         """
         raise NotImplemented
 
-    def get_active_sessions() -> [ChatSession]:
+    def get_active_sessions( self ) -> [ChatSession]:
         """
         Get a list of all currently active sessions
 
