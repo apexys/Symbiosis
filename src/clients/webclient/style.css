@@ -1,0 +1,27 @@
+body{
+    padding: 0;
+    margin: 0;
+    font-family: "Myriad Pro", sans-serif;
+}
+
+#header{
+    text-align: center;
+    vertical-align: middle;
+    background-color: #EFEFEF;
+    border-top: 1px solid #DDD;
+    border-bottom: 1px solid #DDD;
+    height: 2em;
+    font-size: 1.5em;
+    /*
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    */
+}
+
+#content{
+
+}
+
+#footer{
+
+}
