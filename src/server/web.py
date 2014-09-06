@@ -11,13 +11,13 @@ app = Flask( __name__ )
 def index():
     return slurp('../clients/static/index.html')
 
-@app.route( '/login', methods = [ 'POST' ] )
+@app.route( '/login', methods = ['POST'] )
 def login():
     data = request.form
     if data[ 'user' ] == 'dummy' and data[ 'pass' ] == 'dummy':
         response = make_response(to_json( { 'infos': [ 'Login successful' ] } ))
-        response.set_cookie('username', data['user']);
-        response.set_cookie('password', data['pass']);
+        response.set_cookie('username', data['username']);
+        response.set_cookie('password', data['password']);
         return response
     else:
         return to_json( { 'errors': [ 'Login failed' ] } )
