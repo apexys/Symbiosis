@@ -1,16 +1,20 @@
 #!/usr/bin/env python
 from sys import argv, exit
-from util import slurp
+from util import slurp, spit
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import backref, relationship
 
 from sqlalchemy import Column, String, Integer, ForeignKey, create_engine
 
-engine = create_engine( slurp( 'sql_engine.conf' ), echo = True )
 Base = declarative_base()
 
 def create_database():
-    Base.metadata.create_all(engine)
+    try:
+        engine = create_engine( slurp( 'sql_engine.conf' ), echo = True )
+    except FileNotFoundError:
+        print( 'Please create a sql_engine.conf file. You can create such a file by invoking python database.py config' )
+        exit( 1 )
+    Base.metadata.create_all( engine )
 
 def id_col():
     return Column( Integer, primary_key = True )
@@ -74,4 +78,9 @@ class ChatItem( Base ):
 
 
 if __name__ == "__main__":
-    create_database()
+    if len( argv ) > 1:
+        if argv[ 1 ] == 'create':
+            create_database()
+        elif argv[ 1 ] == 'config':
+            spit( 'sql_engine.conf', 'sqlite:///:memory:' )
+            print( 'wrote default config' )
