@@ -12,7 +12,8 @@ def create_database():
     try:
         engine = create_engine( slurp( 'sql_engine.conf' ), echo = True )
     except FileNotFoundError:
-        print( 'Please create a sql_engine.conf file. You can create such a file by invoking python database.py config' )
+        print( '[ERROR] Please create a sql_engine.conf file. You can create '
+               'such a file by invoking python database.py config' )
         exit( 1 )
     Base.metadata.create_all( engine )
 
@@ -83,4 +84,4 @@ if __name__ == "__main__":
             create_database()
         elif argv[ 1 ] == 'config':
             spit( 'sql_engine.conf', 'sqlite:///:memory:' )
-            print( 'wrote default config' )
+            print( '[INFO] wrote default config' )
