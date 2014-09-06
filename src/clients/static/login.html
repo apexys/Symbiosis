@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="style.css">
+        <script type="text/javascript" src="views.js"></script>
+    </head>
+    <body>
+        <div id="header">
+            <span id="header-text">Login</span>
+        </div>
+        <div id="content">
+            <form action="./login">
+                <div id="username-wrapper">
+                    <span id="username-label">Username:</span><input type="text" name="username" id="username-input">
+                </div>
+                <div id="password-wrapper">
+                    <span id="password-label">Password:</span><input type="text" name="password" id="password-input">
+                </div>
+                <div id="action-wrapper">
+                    <input type="submit">
+                </div>
+            </form>
+        </div>
+        <div id="footer">
+
+        </div>
+        <script type="text/javascript">
+            viewGenerator = new ViewGenerator();
+            viewGenerator.clearView();
+            viewGenerator.createChatSessionOverView();
+        </script>
+    </body>
+</html>
