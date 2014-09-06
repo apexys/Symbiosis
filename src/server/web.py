@@ -11,7 +11,7 @@ app = Flask( __name__ )
 def index():
     return slurp('../clients/static/index.html')
 
-@app.route( '/login', methods = [ 'POST' ] )
+@app.route( '/login', methods = ['POST'] )
 def login():
     data = request.form
     if data[ 'username' ] == 'dummy' and data[ 'password' ] == 'dummy':
@@ -22,4 +22,3 @@ def login():
 
 if __name__ == "__main__":
     app.run( debug = True )
-
