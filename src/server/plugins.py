@@ -13,7 +13,7 @@ class CommunicationPlugin( ABC ):
         :param args: Further plugin-specific arguments
         :param kwargs: Further plugin-specific arguments
         """
-        pass
+        raise NotImplemented
 
     def login( credentials : dict ):
         """
@@ -21,13 +21,13 @@ class CommunicationPlugin( ABC ):
 
         :param credentials: Data for login
         """
-        pass
+        raise NotImplemented
 
     def logout():
         """
         Log out from the service and disconnect
         """
-        pass
+        raise NotImplemented
 
     def send( message ):
         """
@@ -35,7 +35,7 @@ class CommunicationPlugin( ABC ):
 
         :param message: Object of type Message with all the required data
         """
-        pass
+        raise NotImplemented
 
     def get_active_sessions() -> [ChatSession]:
         """
@@ -43,7 +43,7 @@ class CommunicationPlugin( ABC ):
 
         :return: A list of all active sessions that this plugin manages
         """
-        pass
+        raise NotImplemented
 
 
 if __name__ == "__main__":
