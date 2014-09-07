@@ -45,7 +45,7 @@ function ViewGenerator(){
     }
 }*/
 function canIhazLogin() {
-    useful.post("http://s.symbiosis.l:5000/login",
+    useful.post("login",
                 {"username": "foo",
                  "password": "bar"},
                 function(x){useful.log(x.responseText);},
