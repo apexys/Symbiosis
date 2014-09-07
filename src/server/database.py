@@ -35,6 +35,15 @@ class User( Base ):
 
     contexts = relationship( 'Context', secondary = 'user_in_context' )
 
+    def __init__( self, name, password ):
+        self.name = name
+        self.salt = 'REPLACEMEWITHSOMETHINGRANDOM' #TODO randomize
+        self.hashed_auth_data = password #TODO hash it
+
+    def check_password( self, password ):
+        return password == self.hashed_auth_data #TODO make it secure
+
+
 class Message( Base ):
     __tablename__ = 'message'
     id = id_col()

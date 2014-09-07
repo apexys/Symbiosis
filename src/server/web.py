@@ -19,11 +19,41 @@ def default_response():
 def to_json( f ):
     def result( *args, **kwargs ):
         return make_response( dumps( f( *args, **kwargs ) ) )
+    result.__name__ = f.__name__ #flask assertion fails if one function shares several routes
     return result
 
 @app.route( '/' )
 def index():
     return slurp('../clients/static/index.html')
+
+@app.route( '/register', methods = ['POST'] )
+@to_json
+def register():
+    pass
+    response = default_response()
+    data = request.form
+    try:
+        username = data[ 'username' ]
+        password = data[ 'password' ]
+    except KeyError:
+        response[ 'errors' ].append( 'Missing POST data' )
+        return response
+
+    db_users = sql.query( db.User ).filter( db.User.name == username ).all()
+    if len( db_users ) != 0:
+        if len( db_users ) > 1:
+            print( '[BUG] Username ' + username + ' is duplicated in the database!' )
+        response[ 'errors' ].append( 'User already exists' )
+        return response
+
+    db_user = db.User( username, password )
+    sql.add( db_user )
+    sql.commit()
+    response[ 'infos' ].append( 'Registration successful!' )
+    return response
+
+
+
 
 @app.route( '/login', methods = ['POST'] )
 @to_json
@@ -36,8 +66,10 @@ def login():
         response[ 'errors' ].append( 'Username not found' )
         return response
 
-    #TODO implement user password check
-    response[ 'infos' ].append( 'Login successful' )
+    if db_user.check_password( data[ 'password' ] ):
+        response[ 'infos' ].append( 'Login successful' )
+    else:
+        response[ 'errors' ].append( 'Login failed' )
 
     return response
 
