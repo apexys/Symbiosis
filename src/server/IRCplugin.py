@@ -12,7 +12,8 @@ class IRCPlugin (CommunicationPlugin):
         :param kwargs: Further plugin-specific arguments
         """
         self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM);
-        self._socket.connect(args[0]);
+        self._socket.connect(connection_data);
+        self._socketfile = self._socket.makefile()
         self._activeSession = ChatSession('Echo Session');
         self._recv_callback = recv_callback
 
@@ -22,6 +23,10 @@ class IRCPlugin (CommunicationPlugin):
 
         :param credentials: Data for login
         """
+        self._socketfile.write('PASS ' + credentials['password'] + '\n')
+        self._socketfile.write('NICK ' + credentials['username'] + '\n')
+        self._socketfile.write('USER ' + credentials['username'] + ' hostname servername ' + credentials['username'] + '\n')
+
         self._loggedIn = True
 
     def logout():
@@ -46,6 +51,8 @@ class IRCPlugin (CommunicationPlugin):
         """
         return self._activeSession
 
+    def listen():
+        pass
 
 if __name__ == '__main__':
     def test_cb(message):
