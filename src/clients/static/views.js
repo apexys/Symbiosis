@@ -48,6 +48,6 @@ function canIhazLogin() {
     useful.post("login",
                 {"username": "foo",
                  "password": "bar"},
-                function(x){useful.log(x.responseText);},
-                function(x){useful.log("ERROR AY")});
+                function(x){console.log(x.responseText);},
+                function(x){console.log("ERROR AY")});
     }

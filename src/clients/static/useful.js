@@ -1,6 +1,6 @@
 var useful = {};
 
-useful.log = console.log;
+/*useful.log = console.log;*/
 
 useful.debug = false;
 
@@ -13,7 +13,7 @@ useful.post = function(path, data, callback_s, callback_f) {
     req.setRequestHeader("Content-Type", headers.contentTypeHeader);
     req.send(headers.encodedData);
     req.onreadystatechange = function(){
-        if (req.readyState == 4 && xmlhttp.status == 200){
+        if (req.readyState == 4 && req.status == 200){
             callback_s(req);}
         else{
             callback_f(req);}
