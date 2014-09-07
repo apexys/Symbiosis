@@ -25,7 +25,7 @@ useful.multipart = function(data) {
     var ctHeader = "multipart/form-data; boundary=" + boundary;
     var encoded = "";
     for (x in data) {
-        encoded += "--" + boundary + '\r\nContent-Disposition: form-data; name"' + x + '"\r\n\r\n' + data[x] + "\r\n";}
+        encoded += "--" + boundary + '\r\nContent-Disposition: form-data; name="' + x + '"\r\n\r\n' + data[x] + "\r\n";}
     encoded += "--" + boundary + "--\r\n";
     console.log(encoded);
     return {"contentTypeHeader": ctHeader, "encodedData": encoded};}
