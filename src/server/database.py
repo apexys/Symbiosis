@@ -2,19 +2,24 @@
 from sys import argv, exit
 from util import slurp, spit
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import backref, relationship
+from sqlalchemy.orm import backref, relationship, sessionmaker
 
-from sqlalchemy import Column, String, Integer, ForeignKey, create_engine
+from sqlalchemy import Column, String, Integer, ForeignKey, create_engine, \
+                       UniqueConstraint, Table
 
 Base = declarative_base()
+db_conf_file = 'sql_engine.conf' 
+
+try:
+    engine = create_engine( slurp( db_conf_file ), echo = True )
+except FileNotFoundError:
+    spit( db_conf_file, 'sqlite:///:memory:' )
+    print( '[INFO] wrote default database config' )
+    engine = create_engine( slurp( db_conf_file ), echo = True )
+
+Session = sessionmaker( bind = engine )
 
 def create_database():
-    try:
-        engine = create_engine( slurp( 'sql_engine.conf' ), echo = True )
-    except FileNotFoundError:
-        print( '[ERROR] Please create a sql_engine.conf file. You can create '
-               'such a file by invoking python database.py config' )
-        exit( 1 )
     Base.metadata.create_all( engine )
 
 def id_col():
@@ -24,8 +29,11 @@ class User( Base ):
     __tablename__ = 'user'
     id = id_col()
     name = Column( String )
+    UniqueConstraint( 'name' )
     salt = Column( String )
     hashed_auth_data = Column( String )
+
+    contexts = relationship( 'Context', secondary = 'user_in_context' )
 
 class Message( Base ):
     __tablename__ = 'message'
@@ -35,7 +43,7 @@ class Message( Base ):
     context_id = Column( Integer, ForeignKey( 'context.id' ) )
 
     user = relationship( User, backref = backref( 'messages' ) )
-    context = relationship( 'context' )
+    context = relationship( 'Context' )
 
 class Service( Base ):
     __tablename__ = 'service'
@@ -50,22 +58,18 @@ class Contact( Base ):
     user_id = Column( Integer, ForeignKey( User.id ) )
 
     user = relationship( User, backref = 'contacts' )
-    service = relationship( Service )
+    service = relationship( Service, uselist = False ) #one to one
 
 class Context( Base ):
     __tablename__ = 'context'
     id = id_col()
     name = Column( String )
 
-class UserInContext( Base ):
-    __tablename__ = 'user_in_context'
-    id = id_col()
-    context_id = Column( Integer, ForeignKey( Context.id ) )
-    user_id = Column( Integer, ForeignKey( User.id ) )
+    users = relationship( User, secondary = 'user_in_context' )
 
-    #oh, the joy of many-to-many relationships
-    context = relationship( Context, backref = 'users_in_context' )
-    users = relationship( User, backref( 'user_in_contexts' ) )
+user_in_context = Table( 'user_in_context', Base.metadata,
+    Column( 'context_id', Integer, ForeignKey( Context.id ) ),
+    Column( 'user_id', Integer, ForeignKey( User.id ) ) )
 
 class ChatItem( Base ):
     __tablename__ = 'chat_item'
@@ -82,6 +86,3 @@ if __name__ == "__main__":
     if len( argv ) > 1:
         if argv[ 1 ] == 'create':
             create_database()
-        elif argv[ 1 ] == 'config':
-            spit( 'sql_engine.conf', 'sqlite:///:memory:' )
-            print( '[INFO] wrote default config' )
