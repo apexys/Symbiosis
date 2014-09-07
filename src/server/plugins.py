@@ -5,7 +5,7 @@ from abc import ABC
 from chat import ChatSession, Message
 
 class CommunicationPlugin( ABC ):
-    def __init__( self, recv_callback, *args, **kwargs ):
+    def __init__( self, recv_callback, connection_data):
         """
         Initialize a communication plugin.
 

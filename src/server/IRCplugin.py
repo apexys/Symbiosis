@@ -1,8 +1,9 @@
 from plugins import CommunicationPlugin
 from chat import Message, ChatSession
+from socket import socket
 
-class EchoPlugin (CommunicationPlugin):
-    def __init__( self, recv_callback, connection_data ):
+class IRCPlugin (CommunicationPlugin):
+    def __init__( self, recv_callback, connection_data):
         """
         Initialize a communication plugin.
 
@@ -10,6 +11,8 @@ class EchoPlugin (CommunicationPlugin):
         :param args: Further plugin-specific arguments
         :param kwargs: Further plugin-specific arguments
         """
+        self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM);
+        self._socket.connect(args[0]);
         self._activeSession = ChatSession('Echo Session');
         self._recv_callback = recv_callback
 
