@@ -1,3 +1,4 @@
+/*
 function ViewGenerator(){
     this.clearView = function(){
         console.log("clearView!");
@@ -42,4 +43,11 @@ function ViewGenerator(){
         $('#header-text').text('Login');
         $('#login').attr('display', 'block');
     }
-}
+}*/
+function canIhazLogin() {
+    useful.post("http://s.symbiosis.l:5000/login",
+                {"username": "foo",
+                 "password": "bar"},
+                function(x){useful.log(x.responseText);},
+                function(x){useful.log("ERROR AY")});
+    }

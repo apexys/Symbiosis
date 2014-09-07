@@ -5,6 +5,9 @@ body{
 }
 
 #header{
+    position:fixed;
+    top:0px;
+    width:100%;
     text-align: center;
     vertical-align: middle;
     color: #333;
@@ -13,14 +16,15 @@ body{
     /*background: linear-gradient(#EFEFEF, #E7E7E7);*/
     border-top: 1px solid #DDD;
     border-bottom: 1px solid #DDD;
-    height: 32px;
-    font-size: 24px;
-    padding-top: 4px;
+    height: 40px;
+    font-size: 28px;
+    padding-top: 5px;
     padding-bottom: 1px;
 }
 
 #content{
-
+    position:static;
+    margin-top:48px;
 }
 
 #footer{

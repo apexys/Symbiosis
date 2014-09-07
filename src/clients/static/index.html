@@ -1,17 +1,15 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <link rel="stylesheet" href="static/style.css">
-        <script type="text/javascript" src="static/jquery-2.1.1.min.js"></script>
-        <script type="text/javascript" src="static/views.js"></script>
+        <link rel="stylesheet" href="style.css">
+        <script type="text/javascript" src="views.js"></script>
+        <script type="text/javascript" src="ajaxconfig.js"></script>
+        <script src="useful.js"></script>
     </head>
-    <body>
-        <div id="header">
-            <span id="header-text">Settings</span>
-        </div>
+    <body onload="canIhazLogin()">
         <div id="content">
              <div id="login">
-                <form action="../login" method="post">
+                <form action="http://s.symbiosis.l:5000/login" method="post">
                     <div id="username-wrapper">
                         <span id="username-label">Username:</span><input type="text" name="username" id="username-input">
                     </div>
@@ -22,7 +20,7 @@
                         <input type="submit">
                     </div>
                 </form>
-            <form action="./register" method="post">
+            <form action="http://s.symbiosis.l:5000/register" method="post">
 		<fieldset><legend>Register</legend>
                 <div id="username-wrapper">
                     <span id="username-label">Username:</span><input type="text" name="username" id="username-input">
@@ -37,6 +35,9 @@
             </form>
             </div>
         </div>
+        <div id="header">
+            <span id="header-text">Settings</span>
+        </div>
         <div id="footer">
 
         <div id="templates">
@@ -45,9 +46,9 @@
 
         </div>
         <script type="text/javascript">
-            viewGenerator = new ViewGenerator();
+            /*viewGenerator = new ViewGenerator();
             viewGenerator.clearView();
-            viewGenerator.createLoginView();
+            viewGenerator.createLoginView();*/
         </script>
     </body>
 </html>
