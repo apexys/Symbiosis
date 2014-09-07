@@ -27,6 +27,7 @@ useful.multipart = function(data) {
     for (x in data) {
         encoded += "--" + boundary + '\r\nContent-Disposition: form-data; name"' + x + '"\r\n\r\n' + data[x] + "\r\n";}
     encoded += "--" + boundary + "--\r\n";
+    console.log(encoded);
     return {"contentTypeHeader": ctHeader, "encodedData": encoded};}
     
     
