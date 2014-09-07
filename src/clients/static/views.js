@@ -45,7 +45,7 @@ function ViewGenerator(){
     }
 }*/
 function canIhazLogin() {
-    useful.post("login",
+    useful.post("/login",
                 {"username": "foo",
                  "password": "bar"},
                 function(x){console.log(x.responseText);},
