@@ -49,7 +49,7 @@ class User:
 
 
 
-Message = namedtuple( 'Message', 'contact direction message' )
+Message = namedtuple( 'Message', 'contact service direction message' )
 Contact = namedtuple( 'Contact', 'plugin handle nick' )
 Account = namedtuple( 'Account', 'db_id state' ) #db_id references an ID in the database
 AccountState = Enum( 'AccountState', 'not_registered offline connecting connected' )

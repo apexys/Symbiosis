@@ -1,8 +1,9 @@
 from plugins import CommunicationPlugin
 from chat import Message, ChatSession
+from socket import socket
 
-class EchoPlugin (CommunicationPlugin):
-    def __init__( self, recv_callback, connection_data ):
+class IRCPlugin (CommunicationPlugin):
+    def __init__( self, recv_callback, connection_data):
         """
         Initialize a communication plugin.
 
@@ -10,6 +11,9 @@ class EchoPlugin (CommunicationPlugin):
         :param args: Further plugin-specific arguments
         :param kwargs: Further plugin-specific arguments
         """
+        self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM);
+        self._socket.connect(connection_data);
+        self._socketfile = self._socket.makefile()
         self._activeSession = ChatSession('Echo Session');
         self._recv_callback = recv_callback
 
@@ -19,6 +23,10 @@ class EchoPlugin (CommunicationPlugin):
 
         :param credentials: Data for login
         """
+        self._socketfile.write('PASS ' + credentials['password'] + '\n')
+        self._socketfile.write('NICK ' + credentials['username'] + '\n')
+        self._socketfile.write('USER ' + credentials['username'] + ' hostname servername ' + credentials['username'] + '\n')
+
         self._loggedIn = True
 
     def logout():
@@ -43,6 +51,8 @@ class EchoPlugin (CommunicationPlugin):
         """
         return self._activeSession
 
+    def listen():
+        pass
 
 if __name__ == '__main__':
     def test_cb(message):
