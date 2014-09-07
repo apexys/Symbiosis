@@ -3,14 +3,19 @@
 from sys import argv, exit
 from flask import Flask, session, escape, request, make_response
 from json import dumps
-from util import slurp
 from argparse import ArgumentParser
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.exc import NoResultFound
 
+from util import slurp
+from chat import Message, Contact, Account
+
+
 import database as db
 
 app = Flask( __name__ )
+app.secret_key = 'A super secret key' #TODO implement a random key generator
+
 sql = db.Session()
 
 def default_response():
@@ -29,7 +34,6 @@ def index():
 @app.route( '/register', methods = ['POST'] )
 @to_json
 def register():
-    pass
     response = default_response()
     data = request.form
     try:
@@ -50,8 +54,8 @@ def register():
     sql.add( db_user )
     sql.commit()
     response[ 'infos' ].append( 'Registration successful!' )
+    session[ 'user' ] = username
     return response
-
 
 
 
@@ -61,16 +65,41 @@ def login():
     response = default_response()
     data = request.form
     try:
-        db_user = sql.query( db.User ).filter( db.User.name == data[ 'username' ] ).one()
+        username = data[ 'username' ]
+        password = data[ 'password' ]
+    except KeyError:
+        response[ 'errors' ].append( 'Missing POST data' )
+        return response
+
+    try:
+        db_user = sql.query( db.User ).filter( db.User.name == username ).one()
     except NoResultFound:
         response[ 'errors' ].append( 'Username not found' )
         return response
 
-    if db_user.check_password( data[ 'password' ] ):
+    if db_user.check_password( password ):
         response[ 'infos' ].append( 'Login successful' )
+        session[ 'user' ] = username
     else:
         response[ 'errors' ].append( 'Login failed' )
 
+    return response
+
+@app.route( '/get_new_messages', methods = ['POST', 'GET'] )
+@to_json
+def get_new_messages():
+    response = default_response()
+
+    if session.get( 'user' ) is None:
+        response[ 'errors' ].append( 'You are not logged in' )
+        return response
+
+    response[ 'messages' ] = []
+    data = request.form
+
+    #dummy
+    msg = Message( 'dummy@example.com', 'example-service', '->', 'Hello World' )
+    response[ 'messages' ].append( msg._asdict() )
     return response
 
 if __name__ == "__main__":
@@ -87,4 +116,4 @@ if __name__ == "__main__":
         print( 'If everything worked, you can now start again without -c' )
         exit( 0 ) #you probably don't want to pass -c again for each restart
 
-    app.run( debug = args.debug )
+    app.run( debug = args.debug, host = '0.0.0.0' )
