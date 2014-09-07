@@ -13,7 +13,7 @@ db_conf_file = 'sql_engine.conf'
 try:
     engine = create_engine( slurp( db_conf_file ), echo = True )
 except FileNotFoundError:
-    spit( db_conf_file, 'sqlite:///:memory:' )
+    spit( db_conf_file, 'sqlite:////tmp/symbiosis.sqlite3' )
     print( '[INFO] wrote default database config' )
     engine = create_engine( slurp( db_conf_file ), echo = True )
 

@@ -50,6 +50,9 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     if args.create_database:
+        print( 'Trying to create database' )
         db.create_database()
+        print( 'If everything worked, you can now start again without -c' )
+        exit( 0 ) #you probably don't want to pass -c again for each restart
 
     app.run( debug = args.debug )
